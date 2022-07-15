@@ -32,7 +32,7 @@ class AuthController extends Controller
                 'status' => false,
                 'message' => 'validation error',
                 'errors' => $validateUser->errors()
-            ], 401);
+            ], 300);
         }
 
 
@@ -47,7 +47,7 @@ class AuthController extends Controller
             'status' => true,
             'message' => 'User created successfully',
             'token' => $user->createToken("API TOKEN")->plainTextToken
-        ], 401);
+        ], 200);
         } catch(\Throwable $th){
             return response()->json([
                 'status' => false,
@@ -65,25 +65,50 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         try{
-            $validateUser = Validator::make($request->all(),
+            $validateUserEmail = Validator::make($request->all(),
         [
-            'email' => 'required|email',
+            'email' => '',
             'password' => 'required'
 
         ]);
-        if($validateUser->fails()){
+        if($validateUserEmail->fails()){
             return response()->json([
                 'status' => false,
                 'message' => 'validation error',
-                'errors' => $validateUser->errors()
+                'errors' => $validateUserEmail->errors()
             ], 401);
         }
 
-        if(!Auth::attempt($request->only('email', 'password'))){
+        $validateUserPhone = Validator::make($request->all(),
+        [
+            'phone' => '',
+            'password' => 'required'
+ 
+        ]);
+        if($validateUserPhone->fails()){
             return response()->json([
                 'status' => false,
-                'message' => 'Email or password does not  match with your record',
-            ], 401);
+                'message' => 'validation error',
+                'errors' => $validateUserPhone->errors()
+            ], 465);
+        }
+ 
+        if ($request->email == '') {
+            if(!Auth::attempt($request->only('phone', 'password'))){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'phone or password does not  match with your record',
+                ], 401);
+            }
+        }
+        if($request->phone == ''){
+            if(!Auth::attempt($request->only('email', 'password'))){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'email or password does not  match with your record',
+                ], 401);
+            }
+
         }
 
         $user = User::where('email', $request->email)->first();
@@ -91,7 +116,6 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User Login Successfully',
-            'token' => $user->createToken('API TOKEN')->plainTextToken
         ], 200);
 
         }   catch(\Throwable $th){
@@ -102,15 +126,7 @@ class AuthController extends Controller
         }
 
     }
-                    /**
-     * Login User
-     * @param Request $request
-     * @return User
-     */
-    public function showUser(User $user)
-    {
-        return $user->namespace;
-    }
-}
 
+
+}
 
