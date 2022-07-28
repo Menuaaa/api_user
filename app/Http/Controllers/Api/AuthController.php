@@ -1,14 +1,15 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\PersonalAccessTokens;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -44,8 +45,6 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
         ]);
-
-        event(new Registered($user));
 
         return response()->json([
             'status' => true,
@@ -83,7 +82,8 @@ class AuthController extends Controller
             ], 401);
         }
         $user = User::where('name', $request->name)->first();
-        if ($request->name == '' || $request->name != $user) {
+        $userId = User::where('name', $request->id)->first();
+            if ($request->name == '' || $request->name != $user) {
             if(!Auth::attempt($request->only('name', 'password'))){
                 return response()->json([
                     'status' => false,
@@ -91,12 +91,13 @@ class AuthController extends Controller
                 ], 401);
             }
         }
-
+        $token = PersonalAccessTokens::where('tokenable_id' , $user->id)->first();
        
 
         return response()->json([
             'status' => true,
             'message' => 'User Login Successfully',
+            'token' => $token->token
         ], 200);
 
         }   catch(\Throwable $th){

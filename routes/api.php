@@ -1,9 +1,10 @@
-<?php
+`<?php
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ServicesController;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,3 +23,23 @@ Route::post('auth/login', [AuthController::class, 'loginUser']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Auth::routes(['verify' => true]);
+
+// Read services
+Route::get('admin/services', [ServicesController::class, 'getServices']);
+
+// Read one service
+Route::get('admin/services/{id}', [ServicesController::class, 'serviceById']);
+
+// Add new service
+Route::post('admin/services/create', [ServicesController::class, 'createService']);
+
+// Edit service
+
+Route::put('admin/services/update/{id}', [ServicesController::class, 'updateService']);
+
+// Delete service
+
+Route::delete('admin/services/delete/{id}', [ServicesController::class, 'deleteService']);
+
