@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\LoginMail;
+use App\Models\DataTime;
 use App\Models\PersonalAccessTokens;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -13,6 +15,26 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
+        /**
+     * Get Users
+     * @param Request $request
+     * @return User
+     */
+    public function allUsers()
+    {
+        $user = User::all();
+        foreach($user as $i){
+        $booking = DataTime::where('user_id' , $i->id);
+        
+        return response([
+           [
+            $user,
+            'bookings'=> $booking
+            ]
+
+        ]);
+    }
+}
     /**
      * Create User
      * @param Request $request
@@ -45,11 +67,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
         ]);
-
         return response()->json([
             'status' => true,
             'message' => 'User created successfully',
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+            'token' => $user->createToken("API TOKEN")->plainTextToken,
+            "id" => $user->id
+            
         ], 200);
         } catch(\Throwable $th){
             return response()->json([
@@ -97,7 +120,9 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User Login Successfully',
-            'token' => $token->token
+            'token' => $token->token,
+            'id' => $user->id,
+            'name' => $user->name
         ], 200);
 
         }   catch(\Throwable $th){

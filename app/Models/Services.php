@@ -11,5 +11,5 @@ class Services extends Model
     use HasFactory;
     use SoftDeletes;
     public $timestamps = false;
-    protected $fillable = ['img', 'location', 'price', 'worker_level', 'description', 'title'];
+    protected $fillable = ['img', 'location', 'price', 'worker_level', 'description', 'title', 'is_available'];
 }

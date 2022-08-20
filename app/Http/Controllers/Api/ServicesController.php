@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ServiceResource;
+use App\Models\salons;
 use App\Models\Services;
 use Illuminate\Database\Console\DbCommand;
 use Illuminate\Http\Request;
@@ -15,7 +17,7 @@ class ServicesController extends Controller
     //read all services
     public function getServices()
     {
-         return response()->json(Services::all(), 200);
+         return response()->json(ServiceResource::collection(Services::all()));
     }
 
     // service by id
@@ -27,7 +29,7 @@ class ServicesController extends Controller
                 "message"=> 'service not found'
             ], 404);
         }
-        return response()->json([$service::find($id), 200]);
+        return response()->json([$service::find($id)]);
     }
 
     // create service 
@@ -35,7 +37,7 @@ class ServicesController extends Controller
     public function createService(Request $request)
     {
         $service = Services::create($request->all());
-        return response($service, 201);
+        return response($service);
     }
 
     // update service
@@ -79,46 +81,53 @@ class ServicesController extends Controller
 
 
     public function index(){
-        $posts = Services::all();
-        return view('admin.services', compact('posts'));
+        $services = Services::all();
+        return view('admin.services.services', compact('services'));
     }
 
     public function edit_function($id)
     {
         $posts = Services::find($id);
         $post =  DB::select('select * from services where id = ?', [$id]);
-        return view('admin.edit_services',['post' =>$post]);
+        return view('admin.services.edit_services',['post' =>$post]);
     }       
 
     public function update_func(Request $request)
     {
-        $service_img = $_FILES['img']['name'];
         $hid_img = $request->input('prev_img');
-        if($service_img == ""){
-            $service_img = $hid_img;
+        if($request->file('img')){
+            $fileName = $request->file('img')->getClientOriginalName();
+            $path = $request->file('img')->move(public_path('/'), $fileName);
+            $photoUrl = url('/'.$fileName);
+       }else{
+            $photoUrl = $hid_img;
         }
-        $request->file('img')->store('docs');
+
         $id = $request->input('id');
         $service_location = $request->input('location');
         $service_price = $request->input('price');
         $service_worker_level = $request->input('worker_level');
         $service_description = $request->input('description');
         $service_title = $request->input('title');
+        $service_is_available = $request->input('is_available');
+        $services_revews = $request->input('revews');
         DB::update('update services set 
         img = ? , 
         location = ? , 
         price = ? , 
         worker_level = ? ,
         description = ? , 
-        title = ?  
+        title = ?  ,
+        revews = ?,
+        is_available =?
         where id = ? ',
-         [$service_img, $service_location , 
-         $service_price , $service_worker_level, $service_description, $service_title, $id]);
-        return redirect('admin/services')->with('success', 'Data updated');
+         [$photoUrl, $service_location , 
+         $service_price , $service_worker_level, $service_description, $service_title, $services_revews, $service_is_available, $id]);
+        return redirect(route('services.index'))->with('success', 'Data updated');
     }
 
 
-    public function delete(Request $request,$id)
+    public function delete($id)
     {
         $service = Services::find($id);
         if(is_null($service))
@@ -126,13 +135,13 @@ class ServicesController extends Controller
             return 'service not found';
         }
     $service->delete();
-        return redirect('admin/services')->with('success', 'Data deleted');
+        return redirect()->route('services.index')->with('success', 'Data deleted');
     }
 
     public function add_service(Request $request)
     {
         // $service = Services::create($request->all());
-        return view('admin.add_services');
+        return view('admin.services.add_services');
     }
     public function create_service(Request $request)
     {
@@ -140,20 +149,26 @@ class ServicesController extends Controller
         $file= $request->file('img');
         $request->file('img')->store('docs');
         $id = $request->input('id');
+        $fileName = $request->file('img')->getClientOriginalName();
+        $path = $request->file('img')->move(public_path('/'), $fileName);
+        $photoUrl = url('/'.$fileName);
         $service_location = $request->input('location');
         $service_price = $request->input('price');
+        $service_is_available = $request->input('is_available');
         $service_worker_level = $request->input('worker_level');
         $service_description = $request->input('description');
+        $services_revews = $request->input('revews');
         $service_title = $request->input('title');
         DB::insert('insert into services ( 
-        img, 
+        image, 
         location, 
         price, 
         worker_level,
         description, 
-        title) values ( ?, ?, ?, ?, ?, ?)',
-         [$service_img, $service_location , 
-         $service_price , $service_worker_level, $service_description, $service_title]);
-        return redirect('admin/services')->with('success', 'Data updated');
+        title, revews, is_available ) values ( ?, ?, ?, ?, ?, ?,? ,?)',
+         [$photoUrl, $service_location , 
+         $service_price , $service_worker_level, $service_description, $service_title, $services_revews, $service_is_available]);
+        return redirect( route('services.index') )->with('success', 'Data updated'); 
+        // return response()->json(['url' => $photoUrl], 200);
     }
     }

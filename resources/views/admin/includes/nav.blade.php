@@ -2,7 +2,16 @@
             <h1>Dashboard</h1>
             <ul>
                 <li>
-                    <a href="services-list.php">Services</a>
+                    <a href="{{ route('services.index') }}">Services</a>
+                </li>
+                <li>
+                <a href="{{ route('salons.index') }}">Salons</a>
+                </li>
+                <li>
+                <a href="{{ route('aboutus.index')}}">About us</a>
+                </li>  
+                  <li>
+                <a href="{{ route('users.index')}}">Users</a>
                 </li>
                 <li>
                     <a href="#">Log out</a>

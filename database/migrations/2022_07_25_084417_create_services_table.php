@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('worker_level');
             $table->text('description');
             $table->string('title');
+            $table->string('is_available')->nullable();
+            $table->integer('revews');
             $table->timestamps();
             $table->softDeletes();
         });
