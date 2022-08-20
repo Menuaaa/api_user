@@ -92,8 +92,9 @@ class ServicesController extends Controller
         return view('admin.services.edit_services',['post' =>$post]);
     }       
 
-    public function update_func(Request $request)
+    public function update_func(Request $request, $id)
     {
+        
         $hid_img = $request->input('prev_img');
         if($request->file('img')){
             $fileName = $request->file('img')->getClientOriginalName();
@@ -103,27 +104,18 @@ class ServicesController extends Controller
             $photoUrl = $hid_img;
         }
 
-        $id = $request->input('id');
-        $service_location = $request->input('location');
-        $service_price = $request->input('price');
-        $service_worker_level = $request->input('worker_level');
-        $service_description = $request->input('description');
-        $service_title = $request->input('title');
-        $service_is_available = $request->input('is_available');
-        $services_revews = $request->input('revews');
-        DB::update('update services set 
-        img = ? , 
-        location = ? , 
-        price = ? , 
-        worker_level = ? ,
-        description = ? , 
-        title = ?  ,
-        revews = ?,
-        is_available =?
-        where id = ? ',
-         [$photoUrl, $service_location , 
-         $service_price , $service_worker_level, $service_description, $service_title, $services_revews, $service_is_available, $id]);
-        return redirect(route('services.index'))->with('success', 'Data updated');
+       Services::where('id',$id)->update([
+        'img' => $photoUrl, 
+        'location' => $request->location, 
+        'price' => $request->price, 
+        'worker_level' => $request->worker_level,
+        'description' => $request->description, 
+        'title' => $request->title,
+        'revews' => $request->revews,
+        'is_available' => $request->is_available
+       ]);
+        
+        return redirect()->route('services.index')->with('success', 'Service updated');
     }
 
 

@@ -43,14 +43,14 @@ class AboutUsController extends Controller
 
     public function index(){
         $about = AboutUs::all();
-        return view('admin.aboutUs', compact('about'));
+        return view('admin.about_us.aboutUs', compact('about'));
     }
 
     public function edit_function($id)
     {
         $posts = AboutUs::find($id);
         $post =  DB::select('select * from about_us where id = ?', [$id]);
-        return view('admin.edit_about',['post' => $post]);
+        return view('admin.about_us.edit_about',['post' => $post]);
     }       
 
     public function update_func(Request $request)
@@ -110,7 +110,7 @@ class AboutUsController extends Controller
     public function add_aboutus(Request $request)
     {
         // $service = Services::create($request->all());
-        return view('admin.add_aboutus');
+        return view('admin.about_us.add_aboutus');
     }
     public function create_aboutus(Request $request)
     {
@@ -135,7 +135,6 @@ class AboutUsController extends Controller
          [$title, $text , 
          $first_photoUrl , $second_photoUrl, $third_photoUrl]);
         return redirect('admin/aboutus')->with('success', 'Data updated'); 
-        // return response()->json(['url' => $photoUrl], 200);
     }
     }
 

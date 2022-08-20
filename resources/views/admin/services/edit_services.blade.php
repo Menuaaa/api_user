@@ -18,14 +18,22 @@
                 <div class="forms-container">
                     <div class="">
                         <input type="hidden" name="id" value="{{ $post[0]->id }}">
-                        <input type="hidden" name="prev_img" value="{{ $post[0]->img }}">
+                        <label for="">title</label>
                         <input type="text" placeholder="title" name="title" value="{{ $post[0]->title }}">
+                        <label for="">description</label>
                         <textarea name="description" id="" cols="30" rows="10">{{ $post[0]->description }}</textarea>
+                        <label for="">worker_level</label>
                         <input type="text" placeholder="title" name="worker_level" value="{{ $post[0]->worker_level }}">
+                        <label for="">price</label>
                         <input type="text" placeholder="title" name="price" value="{{ $post[0]->price }}">
+                        <label for="">location</label>
                         <input type="text" placeholder="title" name="location" value="{{ $post[0]->location }}">
+                        <label for="">revews</label>
                         <input type="text" placeholder="title" name="revews" value="{{ $post[0]->revews }}">
-                        <input type="text" name="is_available" placeholder="Available" id="">
+                        <label for="">Available</label>
+                        <input type="text" name="is_available" placeholder="Available" value="{{ $post[0]->is_available }}" id="">
+                        <label for="">Image</label>
+                        <img src="{{ $post[0]->img }}" alt="" width="100" height="100">
                         <input type="file" placeholder="title" name="img" value="{{ $post[0]->img }}">
                     </div>
                 </div>

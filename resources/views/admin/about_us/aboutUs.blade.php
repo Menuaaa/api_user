@@ -6,7 +6,7 @@
 
             <div class="list-title">
                 <h2>About us</h2>
-               <a href="{{ route('addAboutUs.index')}}"><button class="add">Add About us</button></a>
+               <a href="{{ route('aboutus.add')}}"><button class="add">Add About us</button></a>
             </div>
             <div class="table-container">
                 <table>
@@ -23,13 +23,13 @@
                     <tr>
                         <td>{{$i->id}}</td>
                         <td>{{$i->title}}</td>
-                        <td>{{mb_substr($i->first_image, 0, 10 ) . '...'}}</td>
-                        <td>{{mb_substr($i->second_image, 0, 10 ) . '...'}}</td>
-                        <td>{{mb_substr($i->third_image, 0, 10 ) . '...'}}</td>
+                        <td><img src="{{$i->first_image}}" alt="" width="100" height="100"></td>
+                        <td><img src="{{$i->second_image}}" alt="" width="100" height="100"></td>
+                        <td><img src="{{$i->third_image}}" alt="" width="100" height="100"></td>
                         <td>{{mb_substr($i->text, 0, 10 ) . '...'}}</td>
                         <td>
-                            <a href="{{ route('editAboutUs.index') }}/{{ $i->id }}"><button class="edit">edit</button></a>
-                            <a href="{{ route('deleteAboutUs.index') }}/{{ $i->id }}"><button class="delete">delete</button></a>
+                            <a href=" edit_aboutus/{{ $i->id }}"><button class="edit">edit</button></a>
+                            <a href="about/delete/{{ $i->id }}"><button class="delete">delete</button></a>
                         </td>
                     </tr>
                     @endforeach

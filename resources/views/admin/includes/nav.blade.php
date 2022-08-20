@@ -39,7 +39,11 @@ button {
     cursor: pointer;
     transition: 0.3s;
 }
-
+label{
+    font-size: 20px;
+    font-weight: bold;
+    color: darkblue;
+}
 .add {
     background: #09691b;
     color: #f5f5f5;

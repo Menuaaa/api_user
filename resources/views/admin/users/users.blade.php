@@ -6,7 +6,7 @@
 
             <div class="list-title">
                 <h2>users</h2>
-               <a href="add_services"><button class="add">Add User</button></a>
+               <a href="users/add"><button class="add">Add User</button></a>
             </div>
             <div class="table-container">
                 <table>
@@ -15,7 +15,6 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Password (hash)</th>
-                        <th>Token</th>
                         <th>Phone</th>
                         <th></th>
                     </tr>
@@ -25,11 +24,10 @@
                         <td>{{$post->name}}</td>
                         <td>{{$post->email}}</td>
                         <td>{{mb_substr($post->password, 0, 20 ). '...' }}</td>
-                        <td>{{ mb_substr($post->token, 0,30 )}}</td>
                         <td>{{ mb_substr($post->phone, 0,30 )}}</td>
                         <td>
                             <a href="users/edit/{{ $post->id }}"><button class="edit">edit</button></a>
-                            <a href="services/delete/{{ $post->id }}"><button class="delete">delete</button></a>
+                            <a href="users/delete/{{ $post->id }}"><button class="delete">delete</button></a>
                         </td>
                     </tr>
                     @endforeach

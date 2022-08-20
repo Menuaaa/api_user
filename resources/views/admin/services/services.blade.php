@@ -25,7 +25,7 @@
                     @foreach($services as $post)
                     <tr>
                         <td>{{$post->id}}</td>
-                        <td>{{mb_substr($post->img, 0, 10 ) . '...'}}</td>
+                        <td><img src="{{$post->img}}" alt="" width="100" height="100"></td>
                         <td>{{$post->location}}</td>
                         <td>{{$post->price}}</td>
                         <td>{{ mb_substr($post->worker_level, 0, 20 ). '...' }}</td>

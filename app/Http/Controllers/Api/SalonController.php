@@ -71,14 +71,14 @@ class SalonController extends Controller
 
     public function index(){
         $posts = salons::all();
-        return view('admin.salons', compact('posts'));
+        return view('admin.salons.salons', compact('posts'));
     }
 
     public function edit_function($id)
     {
         $posts = salons::find($id);
         $post =  DB::select('select * from salons where id = ?', [$id]);
-        return view('admin.edit_salon',['post' =>$post]);
+        return view('admin.salons.edit_salon',['post' =>$post]);
     }       
 
     public function update_func(Request $request)
@@ -119,7 +119,7 @@ class SalonController extends Controller
     public function add_salon(Request $request)
     {
         // $salons = salons::create($request->all());
-        return view('admin.add_salons');
+        return view('admin.salons.add_salons');
     }
     public function create_salon(Request $request)
     {

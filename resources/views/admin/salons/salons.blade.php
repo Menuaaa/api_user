@@ -19,7 +19,7 @@
                     @foreach($posts as $post)
                     <tr>
                         <td>{{$post->id}}</td>
-                        <td>{{mb_substr($post->img, 0, 10 ) . '...'}}</td>
+                        <td><img src="{{$post->img}}" alt="" width="100" height="100"></td>
                         <td>{{$post->revews}}</td>
                         <td>
                             <a href="edit_salon/{{ $post->id }}"><button class="edit">edit</button></a>

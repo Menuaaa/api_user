@@ -60,11 +60,11 @@ Route::get('/admin/salons/delete/{id}', [SalonController::class, 'delete'])->nam
 // about us
 
 Route::get('/admin/aboutus', [AboutUsController::class, 'index'])->name('aboutus.index');
-Route::post('admin/edit_aboutus/update/{id}', [AboutUsController::class, 'update_func'])->name('updateAboutUs');
-Route::get('admin/edit_aboutus/{id}', [AboutUsController::class, 'edit_function'])->name('editAboutUs');
-Route::get('/admin/add_aboutus', [AboutUsController::class, 'add_aboutus'])->name('addAboutUs');
-Route::post('/admin/aboutus/create', [AboutUsController::class, 'create_aboutus'])->name('createAboutUs');
-Route::get('/admin/about/delete/{id}', [AboutUsController::class, 'delete_aboutus'])->name('deleteAboutUs');
+Route::post('admin/edit_aboutus/update/{id}', [AboutUsController::class, 'update_func'])->name('aboutus.update');
+Route::get('admin/edit_aboutus/{id}', [AboutUsController::class, 'edit_function'])->name('aboutus.edit');
+Route::get('/admin/add_aboutus', [AboutUsController::class, 'add_aboutus'])->name('aboutus.add');
+Route::post('/admin/aboutus/create', [AboutUsController::class, 'create_aboutus'])->name('aboutus.create');
+Route::get('/admin/about/delete/{id}', [AboutUsController::class, 'delete_aboutus'])->name('aboutus.delete');
 
 Route::get('/admin/users', [UserController::class, 'index'])->name('users.index');
 Route::post('admin/users/update/{id}', [UserController::class, 'update'])->name('users.update');

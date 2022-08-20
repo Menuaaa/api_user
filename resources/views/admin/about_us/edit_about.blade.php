@@ -19,13 +19,21 @@
                     <div class="">
                         <input type="hidden" name="id" value="{{ $post[0]->id }}">
                         <input type="hidden" name="id" value="{{ $post[0]->id }}">
+                        <label for="">Title</label>
                         <input type="text" placeholder="title" name="title" value="{{ $post[0]->title }}">
+                        <label for="">Text</label>
                         <input type="text" placeholder="title" name="text" value="{{ $post[0]->text }}">
                         <input type="hidden" name="prev_first_img" value="{{ $post[0]->first_image }}">
                         <input type="hidden" name="prev_second_img" value="{{ $post[0]->second_image }}">
                         <input type="hidden" name="prev_third_img" value="{{ $post[0]->third_image }}">
+                        <label for="">First image</label>
+                        <img src="{{ $post[0]->first_image }}" alt="">
                         <input type="file" placeholder="title" name="first_image" value="{{ $post[0]->first_image }}">
+                        <label for="">Second image</label>
+                        <img src="{{ $post[0]->second_image }}" alt="">
                         <input type="file" placeholder="title" name="second_image" value="{{ $post[0]->second_image }}">
+                        <label for="">third image</label>
+                        <img src="{{ $post[0]->third_image }}" alt="">
                         <input type="file" placeholder="title" name="third_image" value="{{ $post[0]->third_image }}">
                     </div>
                 </div>
